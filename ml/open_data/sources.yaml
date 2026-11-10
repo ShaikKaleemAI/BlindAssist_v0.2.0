@@ -1,0 +1,73 @@
+# Open-data sources for the hazard detector. Licences are recorded per source and copied into docs/generated/DATA_LICENSES.md.
+# STATUS: not downloaded in the authoring sandbox (no network). Source URLs/classes come from public dataset pages; re-check them.
+unified_classes: [stairs, step, pothole, open_drain, manhole, curb, pole, glass_door, speed_bump, vehicle, cow, auto_rickshaw, person]
+# NOTE: open data has no up/down stairs label, so stairs is ONE class. Treat every detected stairs as a possible descent.
+
+sources:
+  - id: pothole_ivcnz
+    method: url_zip
+    url: https://github.com/jaygala24/pothole-detection/releases/download/v1.0.0/Pothole.Dataset.IVCNZ.zip
+    license: "UNVERIFIED (web-collected images; check before redistributing; research training only)"
+    names: [pothole]
+    map: {pothole: pothole}
+
+  - id: roboflow_pothole_manhole_drain
+    method: roboflow
+    workspace: najwadatasetpart2
+    project: pothole_manhole_drain_detection
+    license: CC BY 4.0
+    map:
+      pothole: pothole
+      hole: pothole
+      manhole: manhole
+      sewer cover: manhole
+      drain hole: open_drain        # noisy mapping (drain may be covered): review samples
+      circle drain clean: open_drain
+      drain: open_drain
+      drain clean: open_drain
+      drain not clean: open_drain
+    noisy: [drain hole, circle drain clean, drain, drain clean, drain not clean]
+
+  - id: roboflow_risk_detection_1
+    method: roboflow
+    workspace: test005-73tvc
+    project: risk-detection-1-2olyc
+    license: CC BY 4.0
+    use_synonyms: true              # class names unknown offline: matched via `synonyms`; unmatched names are reported, not guessed
+
+  - id: openimages_v7
+    method: fiftyone_oi
+    license: "CC BY 2.0 images / CC BY 4.0 annotations (Open Images)"
+    max_per_class: 1500
+    oi_classes:                     # Open Images class -> unified class (classes missing from OI are skipped with a warning)
+      Person: person
+      Car: vehicle
+      Van: vehicle
+      Truck: vehicle
+      Bus: vehicle
+      Motorcycle: vehicle
+      Bicycle: vehicle
+      Cattle: cow
+      Stairs: stairs
+      Street light: pole
+
+  - id: idd_manual
+    method: manual
+    license: "IDD research licence (registration required)"
+    instructions: "Register at idd.insaan.iiit.ac.in, download IDD Detection, convert to YOLO, place under ml/open_data/raw/idd_manual/ (images + labels + data.yaml). Provides Indian auto-rickshaws."
+    map: {autorickshaw: auto_rickshaw, auto rickshaw: auto_rickshaw, car: vehicle, truck: vehicle, bus: vehicle, motorcycle: vehicle, person: person, animal: cow}
+
+synonyms:
+  stairs: [stairs, staircase, stair, stairway, steps down, stairs down, stairs up]
+  step: [step, single step]
+  pothole: [pothole, potholes, hole]
+  open_drain: [open drain, drain, gutter, open gutter, ditch]
+  manhole: [manhole, manhole cover, sewer cover]
+  curb: [curb, kerb, curb edge]
+  pole: [pole, post, lamp post, street light, utility pole, electric pole, bollard]
+  glass_door: [glass door, glass wall, glass]
+  speed_bump: [speed bump, speed breaker, speed hump]
+  vehicle: [car, bus, truck, van, motorcycle, bike, vehicle]
+  cow: [cow, cattle, bull, buffalo]
+  auto_rickshaw: [auto rickshaw, autorickshaw, auto, tuk tuk]
+  person: [person, pedestrian, people]

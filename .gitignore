@@ -1,0 +1,17 @@
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+*.keystore
+*.jks
+keystore.b64
+# large models are fetched by tools/fetch_models.sh, never committed
+app/src/main/assets/models/*.tflite
+app/src/main/assets/models/*.task
+app/src/main/assets/models/*.onnx
+app/src/main/assets/models/*.bin
+ml/runs/
+ml/dataset/images/
+ml/dataset/labels/
+__pycache__/

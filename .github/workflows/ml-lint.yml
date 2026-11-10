@@ -1,0 +1,16 @@
+name: ml-lint
+on:
+  push: { paths: ['ml/**', 'tools/**'] }
+  pull_request: { paths: ['ml/**', 'tools/**'] }
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install ruff
+      - run: ruff check ml tools
+      - run: python -m py_compile ml/train.py ml/export_tflite_int8.py ml/eval.py ml/make_report.py ml/open_data/build_dataset.py ml/open_data/fetch_open_data.py ml/dataset/split_dataset.py tools/benchmark/analyze_distance.py tools/analyze_metrics.py ml/confusion_matrix.py tools/ablation/ablate.py
+      - run: bash -n tools/fetch_models.sh && bash -n ml/run_all.sh
+      - run: python -m unittest discover -s tools/tests -v

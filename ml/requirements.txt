@@ -1,0 +1,6 @@
+ultralytics>=8.2
+tensorflow>=2.15
+pyyaml
+roboflow
+fiftyone
+huggingface_hub

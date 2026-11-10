@@ -1,0 +1,18 @@
+path: ml/dataset
+train: images/train
+val: images/val
+test: images/test
+names:
+  0: stairs
+  1: step
+  2: pothole
+  3: open_drain
+  4: manhole
+  5: curb
+  6: pole
+  7: glass_door
+  8: speed_bump
+  9: vehicle
+  10: cow
+  11: auto_rickshaw
+  12: person
