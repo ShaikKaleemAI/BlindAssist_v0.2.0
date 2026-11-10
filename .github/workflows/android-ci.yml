@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: 17 }
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
         with: { gradle-version: 8.7 }
       # Uses the wrapper if committed, else the Gradle installed above (see docs/DEPLOY.md TODO(user): gradle wrapper)
       - name: Build, test, lint
