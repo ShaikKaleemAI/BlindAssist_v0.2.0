@@ -23,8 +23,12 @@ class I18nTest {
     }
 
     @Test fun allKeysPresentInAllLanguages() {
-        for (lang in listOf("en", "hi", "te")) for (k in keys)
+        // English words "left", "right" and "ahead" legitimately equal their own keys.
+        val sameAsKeyInEnglish = setOf("left", "right", "ahead")
+        for (lang in listOf("en", "hi", "te")) for (k in keys) {
+            if (lang == "en" && k in sameAsKeyInEnglish) continue
             assertNotEquals("$lang missing '$k'", k, I18n.t(lang, k))
+        }
     }
 
     @Test fun hindiAndTeluguDifferFromEnglish() {

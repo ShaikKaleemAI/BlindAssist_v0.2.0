@@ -10,7 +10,14 @@ class RawDet(val cls: Int, val score: Float, val box: DoubleArray)
 object YoloDecoder {
     fun decode(out: FloatArray, dim1: Int, dim2: Int, numClasses: Int, scoreThr: Float,
                imgW: Double, imgH: Double, iouThr: Double = 0.5): List<RawDet> {
-        val cf = dim1 < dim2
+        // Pick the layout by which dimension equals 4+numClasses (robust for any anchor count);
+        // if ambiguous or neither matches, fall back to "channels are the smaller dimension".
+        val want = 4 + numClasses
+        val cf = when {
+            dim1 == want && dim2 != want -> true
+            dim2 == want && dim1 != want -> false
+            else -> dim1 < dim2
+        }
         val n = if (cf) dim2 else dim1
         val ch = if (cf) dim1 else dim2
         require(ch == 4 + numClasses) { "unexpected output channels $ch for $numClasses classes" }
