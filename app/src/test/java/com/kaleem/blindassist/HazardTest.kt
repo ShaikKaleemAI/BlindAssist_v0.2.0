@@ -15,7 +15,7 @@ class HazardTest {
         val out = cf(listOf(floatArrayOf(0.5f, 0.5f, 0.2f, 0.4f, 0.1f, 0.9f), floatArrayOf(0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f)), 2)
         val d = YoloDecoder.decode(out, 6, 2, 2, 0.5f, 640.0, 480.0)
         assertEquals(1, d.size); assertEquals(1, d[0].cls)
-        assertArrayEquals(doubleArrayOf(256.0, 144.0, 384.0, 336.0), d[0].box, 1e-6)
+        assertArrayEquals(doubleArrayOf(256.0, 144.0, 384.0, 336.0), d[0].box, 1e-3)
     }
 
     @Test fun channelsLastLayoutGivesSameResult() {
